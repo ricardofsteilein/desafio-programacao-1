@@ -1,0 +1,19 @@
++<%= form_tag('/home/upload', :method=>'post', :multipart => true) do %>
+ +
+ +	 <h3>Importação do arquivo</h3>
+ +        <hr />
+ +        <div class="col-md-10">
+ +            <div class="row">
+ +                <%= file_field_tag("ofile")  %>
+ +                <span id= "selecionar"></span>
+ +            </div>
+ +            <br />
+ +        </div>
+ +        <div class="col-md-2 text-right">
+ +            <div class="row">
+ +            	<%= button_tag('Importar') do %><i class="glyphicon glyphicon-save-file"></i> Importar<% end %>
+ +            </div>
+ +            <br />
+ +        </div>
+ +
+ +<% end %>

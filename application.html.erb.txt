@@ -1,0 +1,12 @@
++<!DOCTYPE html>
+ +<html>
+ +<head>
+ +  <title>Desafio de Programação 1</title>
+ +  <%= csrf_meta_tags %> <!-- Retorna o nome do parametro-->
+ +</head>
+ +<body>
+ +
+ +<%= yield %>
+ +
+ +</body>
+ +</html>

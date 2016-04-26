@@ -1,0 +1,4 @@
++json.array!(@forns) do |forn|
+ +  json.extract! forn, :id
+ +  json.url forn_url(forn, format: :json)
+ +end

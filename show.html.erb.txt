@@ -1,0 +1,26 @@
++<h1>Lista compradores</h1>
+ +
+ +<table class="table table-stripped table-bordered">
+ +  <thead>
+ +    <tr>
+ + <!--Define linhas -->
+ +      <th>Nome do Comprador</th>
+ +      <th colspan="3">#</th>
+ +    </tr>
+ +  </thead>
+ +
+ +  <tbody>
+ +    <% @compradores.each do |compradore| %>
+ +      <tr> + <!-- mostra inf. bd -->
+ +      <td><%= compradores.nome_comprador %></td>
+ +      <td><%= link_to 'Show', compr %></td>
+ +      <td><%= link_to 'Edit', edit_compr_path(compr) %></td>
+ +      <td><%= link_to 'Destroy', compr, method: :delete, data: { confirm: 'Deseja confirmar?' } %></td>
+ +      </tr>
+ +    <% end %>
+ +  </tbody>
+ +</table>
+ +
+ +<br>
+ +
+ +<%= link_to 'New Compr', new_compr_path %>

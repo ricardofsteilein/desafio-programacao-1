@@ -1,0 +1,114 @@
++class HomeController < ApplicationController
+ +    
+ +    
+ +    
+ +  def index
+ +    
+ +    @texto = ""
+ +    @vetor = []
+ +    
+ +    @compr = ""  
+ +    @produto = ""
+ +    @valor = ""
+ +    @quantidade = ""
+ +    @end = ""
+ +    @fornecedor = ""
+ +        
+ +    if params.permit(:ofile).any?
+ +      
+ +       @iFile = params[:ofile]
+ +         
+ +       File.open(@iFile.tempfile) do |f|
+ +         while line = f.gets
+ +           
+ +           if !line.starts_with?('compr')
+ +             
+ +             @vetor = line.split(/\t/)
+ +             
+ +             #@vetor[0] #compr
+ +             #@vetor[1] #desc
+ +             #@vetor[2] #pr unit
+ +             #@vetor[3] #quantidade
+ +             #@vetor[4] #end
+ +             #@vetor[5] #fornecedor
+ +             
+ +             @compr = @vetor[0]  
+ +             @produto = @vetor[1]
+ +             @valor = @vetor[2]
+ +             @quantidade = @vetor[3]
+ +             @end = @vetor[4]
+ +             @fornecedor = @vetor[5]
+ +             
+ +             # valida se existe, ou insere
+ +             @existscompr = get_compr_by_name(@compr)
+ +             if @existscompr.count == 0
+ +               novocompr = compres.new
+ +               novocompr.nome_compr = @compr
+ +               novocompr.save
+ +               @existscompr = get_compr_by_name(@compr)
+ +             end
+ +             
+ +            # valida se existe, ou insere
+ +             @existsFornecedor = get_fornecedor_by_name(@fornecedor)
+ +             if @existsFornecedor.count == 0
+ +               novoFornecedor = Fornecedores.new
+ +               novoFornecedor.nome_fornecedor = @fornecedor
+ +               novoFornecedor.end_fornecedor = @end
+ +               novoFornecedor.save
+ +               @existsFornecedor = get_fornecedor_by_name(@fornecedor)
+ +             end
+ +              
+ +             # valida se existe, ou insere
+ +             @existsProduto = get_produto_by_name(@produto)
+ +             if @existsProduto.count == 0
+ +               novoProduto = Produto.new
+ +               novoProduto.desc_produto = @produto
+ +               novoProduto.ce_id_fornecedor = @existsFornecedor.last().id_fornecedor
+ +               novoProduto.valor_unitario = @valor
+ +               novoProduto.save
+ +             end
+ +           
+ +             # instancia a nova compra
+ +             newComp = Compra.new
+ +             newComp.dt_compra = Date.new
+ +             newComp.ce_id_compr = @existscompr.last().id_compador
+ +
+ +           
+ +           end #fim remove colunas
+ +           
+ +           
+ +         end #fim while
+ +         
+ +       end #fim for |f|
+ +       
+ +    else
+ +      #arquivo nao subiu ou e primeira chamada
+ +      
+ +      
+ +    end #end if
+ +    
+ +  end #end def
+ +  
+ +  
+ +  private 
+ +  def get_compr_by_name(nome_compr)
+ +    compres.where('nome_compr LIKE ?', "%#{nome_compr}%")
+ +  end
+ +  
+ +  private
+ +  def get_fornecedor_by_name(nome_fornecedor)
+ +    Fornecedores.where('nome_fornecedor LIKE ?', "%#{nome_fornecedor}%")
+ +  end
+ +  
+ +  private
+ +  def get_produto_by_name(desc_produto)
+ +    Produto.where('desc_produto LIKE ?', "%#{desc_produto}%")
+ +  end
+ + 
+ +  private
+ +  def get_pedidos_if_exists(ce_id_compr, dt_compra)
+ +    
+ +  end
+ + 
+ +end
+View
